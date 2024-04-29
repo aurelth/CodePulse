@@ -13,8 +13,6 @@ export class AddCategoryComponent implements OnDestroy {
   model: AddCategoryRequest;
   private addCategorySubscription?: Subscription;
 
-
-
   constructor(private categoryService: CategoryService) {
     this.model = {
       name: '',

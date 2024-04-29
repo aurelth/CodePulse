@@ -4,6 +4,7 @@ using CodePulse.API.Models.DTO;
 using CodePulse.API.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 
 namespace CodePulse.API.Controllers
 {
@@ -17,8 +18,9 @@ namespace CodePulse.API.Controllers
             _categoryRepository = categoryRepository;
         }
 
+        //POST: 
         [HttpPost]
-        public async Task<IActionResult>  CreateCategory(CreateCategoryRequestDTO requestDTO)
+        public async Task<IActionResult> CreateCategory(CreateCategoryRequestDTO requestDTO)
         {
             //Map DTO to Domain Model
             var category = new Category
@@ -36,6 +38,26 @@ namespace CodePulse.API.Controllers
                 Name = category.Name,
                 UrlHandle = category.UrlHandle
             };
+
+            return Ok(response);
+        }
+
+        //GET: https://localhost:7206/api/Categories
+        [HttpGet]
+        public async Task<IActionResult> GetAllCategories()
+        {
+            var categories = await _categoryRepository.GetAllAsync();
+
+            var response = new List<CategoryDTO>();
+            foreach (var category in categories)
+            {
+                response.Add(new CategoryDTO 
+                {
+                    Id = category.Id,
+                    Name = category.Name, 
+                    UrlHandle = category.UrlHandle 
+                });
+            }
 
             return Ok(response);
         }
