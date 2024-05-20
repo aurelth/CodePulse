@@ -2,6 +2,7 @@
 using CodePulse.API.Models.DTO;
 using CodePulse.API.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace CodePulse.API.Controllers
 {
@@ -15,7 +16,7 @@ namespace CodePulse.API.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        //POST 
+        //POST: https://localhost:7206/api/Categories
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequestDTO requestDTO)
         {
@@ -59,7 +60,7 @@ namespace CodePulse.API.Controllers
             return Ok(response);
         }
 
-        //GET
+        //GET: https://localhost:7206/api/Categories/{id}
         [HttpGet]
         [Route("{id:Guid}")]
         public async Task<IActionResult> GetCategory([FromRoute] Guid id)
@@ -68,7 +69,7 @@ namespace CodePulse.API.Controllers
 
             if (existingCategory is null)
             {
-                return NotFound();
+                return NotFound("Category not found.");
             }
 
             var response = new CategoryDTO
@@ -81,6 +82,7 @@ namespace CodePulse.API.Controllers
             return Ok(response);
         }
 
+        //PUT: https://localhost:7206/api/Categories/{id}
         [HttpPut]
         [Route("{id:Guid}")]
         public async Task<IActionResult> EditCategory([FromRoute] Guid id, [FromBody] UpdateCategoryRequestDTO requestDTO)
@@ -97,10 +99,33 @@ namespace CodePulse.API.Controllers
 
             if (category == null)
             {
-                return NotFound();
+                return NotFound("Category not found.");
             }
 
             //Domain Model to DTO
+            var response = new CategoryDTO
+            {
+                Id = category.Id,
+                Name = category.Name,
+                UrlHandle = category.UrlHandle
+            };
+
+            return Ok(response);
+        }
+
+        //DELETE: https://localhost:7206/api/Categories/{id}
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
+        {
+            var category = await _categoryRepository.DeleteAsync(id);
+
+            if (category is null)
+            {
+                return NotFound();
+            }
+
+            //Map Domain Model to DTO
             var response = new CategoryDTO
             {
                 Id = category.Id,

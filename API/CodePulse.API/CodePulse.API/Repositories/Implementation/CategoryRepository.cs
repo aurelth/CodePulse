@@ -1,6 +1,7 @@
 ﻿using CodePulse.API.Data;
 using CodePulse.API.Models.Domain;
 using CodePulse.API.Repositories.Interface;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodePulse.API.Repositories.Implementation
@@ -19,7 +20,7 @@ namespace CodePulse.API.Repositories.Implementation
             await _db.SaveChangesAsync();
 
             return category;
-        }
+        }        
 
         public async Task<IEnumerable<Category>> GetAllAsync()
             => await _db.Categories.ToListAsync();
@@ -39,6 +40,20 @@ namespace CodePulse.API.Repositories.Implementation
                 return category;
             }
 
+            return null;
+        }
+
+        public async Task<Category?> DeleteAsync(Guid id)
+        {
+            var existingCategory = await _db.Categories.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingCategory != null)
+            {
+                _db.Categories.Remove(existingCategory);
+                await _db.SaveChangesAsync();
+                return existingCategory;
+            }
+            
             return null;
         }
     }
