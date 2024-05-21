@@ -27,7 +27,7 @@ namespace CodePulse.API.Controllers
                 UrlHandle = requestDTO.UrlHandle
             };
 
-            await _categoryRepository.CreateAsync(category);
+            category = await _categoryRepository.CreateAsync(category);
 
             //Domain Model to DTO
             var response = new CategoryDTO
