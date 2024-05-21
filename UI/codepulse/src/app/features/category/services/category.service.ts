@@ -12,8 +12,8 @@ import { UpdateCategoryRequest } from '../models/update-category-request.model';
 export class CategoryService {
   constructor(private http: HttpClient) {}
 
-  addCategory(model: AddCategoryRequest): Observable<void> {
-    return this.http.post<void>(`${environment.apiBaseUrl}/api/categories`, model);
+  addCategory(model: AddCategoryRequest): Observable<Category> {
+    return this.http.post<Category>(`${environment.apiBaseUrl}/api/categories`, model);
   }
 
   getAllCategories(): Observable<Category[]> {
