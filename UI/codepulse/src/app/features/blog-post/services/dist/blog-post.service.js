@@ -16,6 +16,9 @@ var BlogPostService = /** @class */ (function () {
     BlogPostService.prototype.createBlogPost = function (data) {
         return this.http.post(environment_1.environment.apiBaseUrl + "/api/blogposts", data);
     };
+    BlogPostService.prototype.getAllBlogPosts = function () {
+        return this.http.get(environment_1.environment.apiBaseUrl + "/api/blogposts");
+    };
     BlogPostService = __decorate([
         core_1.Injectable({
             providedIn: 'root'
