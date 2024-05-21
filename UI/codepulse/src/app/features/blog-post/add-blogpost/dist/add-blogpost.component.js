@@ -9,7 +9,9 @@ exports.__esModule = true;
 exports.AddBlogpostComponent = void 0;
 var core_1 = require("@angular/core");
 var AddBlogpostComponent = /** @class */ (function () {
-    function AddBlogpostComponent() {
+    function AddBlogpostComponent(blogPostService, router) {
+        this.blogPostService = blogPostService;
+        this.router = router;
         this.model = {
             title: '',
             shortDescription: '',
@@ -23,7 +25,16 @@ var AddBlogpostComponent = /** @class */ (function () {
     }
     AddBlogpostComponent.prototype.ngOnInit = function () { };
     AddBlogpostComponent.prototype.onFormSubmit = function () {
-        throw new Error('Method not implemented.');
+        var _this = this;
+        this.addBlogPostSubscription = this.blogPostService.createBlogPost(this.model).subscribe({
+            next: function (response) {
+                _this.router.navigateByUrl("/admin/blogposts");
+            }
+        });
+    };
+    AddBlogpostComponent.prototype.ngOnDestroy = function () {
+        var _a;
+        (_a = this.addBlogPostSubscription) === null || _a === void 0 ? void 0 : _a.unsubscribe();
     };
     AddBlogpostComponent = __decorate([
         core_1.Component({
