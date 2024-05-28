@@ -21,7 +21,8 @@ var AddBlogpostComponent = /** @class */ (function () {
             urlHandle: '',
             author: '',
             publishedDate: new Date(),
-            isVisible: true
+            isVisible: true,
+            categories: []
         };
     }
     AddBlogpostComponent.prototype.ngOnInit = function () {
@@ -29,6 +30,7 @@ var AddBlogpostComponent = /** @class */ (function () {
     };
     AddBlogpostComponent.prototype.onFormSubmit = function () {
         var _this = this;
+        console.log(this.model);
         this.addBlogPostSubscription = this.blogPostService
             .createBlogPost(this.model)
             .subscribe({

@@ -30,6 +30,7 @@ export class AddBlogpostComponent implements OnInit, OnDestroy {
       author: '',
       publishedDate: new Date(),
       isVisible: true,
+      categories: [],
     };
   }
 
@@ -38,6 +39,7 @@ export class AddBlogpostComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit(): void {
+    console.log(this.model);
     this.addBlogPostSubscription = this.blogPostService
       .createBlogPost(this.model)
       .subscribe({
