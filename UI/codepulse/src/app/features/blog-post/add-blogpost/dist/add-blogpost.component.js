@@ -9,8 +9,9 @@ exports.__esModule = true;
 exports.AddBlogpostComponent = void 0;
 var core_1 = require("@angular/core");
 var AddBlogpostComponent = /** @class */ (function () {
-    function AddBlogpostComponent(blogPostService, router) {
+    function AddBlogpostComponent(blogPostService, categoryService, router) {
         this.blogPostService = blogPostService;
+        this.categoryService = categoryService;
         this.router = router;
         this.model = {
             title: '',
@@ -23,12 +24,16 @@ var AddBlogpostComponent = /** @class */ (function () {
             isVisible: true
         };
     }
-    AddBlogpostComponent.prototype.ngOnInit = function () { };
+    AddBlogpostComponent.prototype.ngOnInit = function () {
+        this.categories$ = this.categoryService.getAllCategories();
+    };
     AddBlogpostComponent.prototype.onFormSubmit = function () {
         var _this = this;
-        this.addBlogPostSubscription = this.blogPostService.createBlogPost(this.model).subscribe({
+        this.addBlogPostSubscription = this.blogPostService
+            .createBlogPost(this.model)
+            .subscribe({
             next: function (response) {
-                _this.router.navigateByUrl("/admin/blogposts");
+                _this.router.navigateByUrl('/admin/blogposts');
             }
         });
     };
