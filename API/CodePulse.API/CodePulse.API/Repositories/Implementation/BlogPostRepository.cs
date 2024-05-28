@@ -24,5 +24,8 @@ namespace CodePulse.API.Repositories.Implementation
 
         public async Task<IEnumerable<BlogPost>> GetAllAsync()
             => await _context.BlogPosts.Include(x => x.Categories).ToListAsync();
+
+        public async Task<BlogPost?> GetByIdsync(Guid id)
+            => await _context.BlogPosts.Include(x => x.Categories).FirstOrDefaultAsync(x => x.Id == id);
     }
 }

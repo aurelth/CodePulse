@@ -30,7 +30,6 @@ var AddBlogpostComponent = /** @class */ (function () {
     };
     AddBlogpostComponent.prototype.onFormSubmit = function () {
         var _this = this;
-        console.log(this.model);
         this.addBlogPostSubscription = this.blogPostService
             .createBlogPost(this.model)
             .subscribe({
