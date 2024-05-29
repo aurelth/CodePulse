@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AddBlogPost } from '../../category/models/add-blog-post.model';
+import { AddBlogPost } from '../models/add-blog-post.model';
 import { BlogPostService } from '../services/blog-post.service';
 import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -39,7 +39,6 @@ export class AddBlogpostComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit(): void {
-    
     this.addBlogPostSubscription = this.blogPostService
       .createBlogPost(this.model)
       .subscribe({

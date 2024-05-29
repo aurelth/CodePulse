@@ -9,8 +9,9 @@ exports.__esModule = true;
 exports.EditBlogpostComponent = void 0;
 var core_1 = require("@angular/core");
 var EditBlogpostComponent = /** @class */ (function () {
-    function EditBlogpostComponent(route) {
+    function EditBlogpostComponent(route, blogPostService) {
         this.route = route;
+        this.blogPostService = blogPostService;
         this.id = null;
     }
     EditBlogpostComponent.prototype.ngOnInit = function () {
@@ -18,9 +19,16 @@ var EditBlogpostComponent = /** @class */ (function () {
         this.routeSubscription = this.route.paramMap.subscribe({
             next: function (params) {
                 _this.id = params.get('id');
+                if (_this.id)
+                    _this.blogPostService.getBlogPostById(_this.id).subscribe({
+                        next: function (response) {
+                            _this.model = response;
+                        }
+                    });
             }
         });
     };
+    EditBlogpostComponent.prototype.onFormSubmit = function () { };
     EditBlogpostComponent.prototype.ngOnDestroy = function () {
         var _a;
         (_a = this.routeSubscription) === null || _a === void 0 ? void 0 : _a.unsubscribe();
