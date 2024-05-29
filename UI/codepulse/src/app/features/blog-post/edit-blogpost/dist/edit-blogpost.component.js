@@ -9,13 +9,15 @@ exports.__esModule = true;
 exports.EditBlogpostComponent = void 0;
 var core_1 = require("@angular/core");
 var EditBlogpostComponent = /** @class */ (function () {
-    function EditBlogpostComponent(route, blogPostService) {
+    function EditBlogpostComponent(route, blogPostService, categoryService) {
         this.route = route;
         this.blogPostService = blogPostService;
+        this.categoryService = categoryService;
         this.id = null;
     }
     EditBlogpostComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.categories$ = this.categoryService.getAllCategories();
         this.routeSubscription = this.route.paramMap.subscribe({
             next: function (params) {
                 _this.id = params.get('id');
@@ -23,6 +25,7 @@ var EditBlogpostComponent = /** @class */ (function () {
                     _this.blogPostService.getBlogPostById(_this.id).subscribe({
                         next: function (response) {
                             _this.model = response;
+                            _this.selectedCategories = response.categories.map(function (x) { return x.id; });
                         }
                     });
             }

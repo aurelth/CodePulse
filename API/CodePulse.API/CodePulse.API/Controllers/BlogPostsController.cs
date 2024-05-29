@@ -133,5 +133,12 @@ namespace CodePulse.API.Controllers
 
             return Ok();
         }
+
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> UpdateBlogPost([FromRoute] Guid id, [FromBody] UpdateBlogPostRequestDTO request)
+        {
+            var existingPost = await _blogPostRepository
+        }
     }
 }
