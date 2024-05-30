@@ -28,19 +28,23 @@ namespace CodePulse.API.Repositories.Implementation
         public async Task<BlogPost?> GetByIdsync(Guid id)
             => await _context.BlogPosts.Include(x => x.Categories).FirstOrDefaultAsync(x => x.Id == id);
 
-        public async Task<BlogPost?> UpdateAsync(Guid id, BlogPost blogPost)
+        public async Task<BlogPost?> UpdateAsync(BlogPost blogPost)
         {
-            var existingPost = await _context.BlogPosts.FirstOrDefaultAsync(x => x.Id == id);
+            var existingPost = await _context.BlogPosts
+                .Include(x => x.Categories)
+                .FirstOrDefaultAsync(x => x.Id == blogPost.Id);
 
             if (existingPost is not null)
             {
-                _context.BlogPosts.Entry(existingPost).CurrentValues.SetValues(blogPost);                
+                _context.BlogPosts.Entry(existingPost).CurrentValues.SetValues(blogPost);
+                existingPost.Categories = blogPost.Categories;
+
                 await _context.SaveChangesAsync();
 
                 return blogPost;
             }
 
             return null;
-        }
+        } 
     }
 }
